@@ -167,4 +167,40 @@ class ProductController extends Controller
             'message' => 'Product deleted successfully'
         ], 200);
     }
+    public function filterByCategory(Request $request)
+    {
+        $category = $request->input('category');
+        $products = Product::where('category', $category)->get();
+
+        if ($products->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No products found for the specified category.',
+                'data' => [$category]
+            ], 404); 
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $products,
+        ]);
+        }
+    public function filterByName(Request $request)
+        {
+            $name = $request->input('name');
+            $products = Product::where('product_name', $name)->get();
+    
+            if ($products->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No products found for the specified category.',
+                    'data' => []
+                ], 404); 
+            }
+    
+            return response()->json([
+                'success' => true,
+                'data' => $products,
+            ]);
+        }
 }

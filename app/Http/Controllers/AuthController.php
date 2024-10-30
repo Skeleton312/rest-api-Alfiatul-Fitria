@@ -69,10 +69,23 @@ class AuthController extends Controller
             'message' => 'Login successfully'
         ], 200);
     }
-
     public function logout(Request $request)
     {
-        // add logic delete user token
-        // then return response json with success true
+        // try {
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Logged out successfully',
+                'data' => null
+            ], 200);
+        // } catch (\Exception $e) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Logout failed',
+        //         'error' => $e->getMessage()
+        //     ], 500);
+        // }
     }
-}
+}    
